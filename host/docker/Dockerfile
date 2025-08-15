@@ -4,6 +4,9 @@ FROM ubuntu:latest
 RUN apt-get update -y
 RUN apt-get install -y python3-pip python3 git python3-flask
 
+# Invalidate cache :
+ARG CACHE_DATE=2016-01-01
+
 # Fetch the source
 # production
 # RUN cd / && git clone https://github.com/lheywang/IOThome.git

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='vite.svg') }}" alt="Vite logo" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Switch audio</title>
@@ -18,8 +18,8 @@
 
 
 
-    <script type="module" crossorigin src="/assets/index-cc179eba.js"></script>
-    <link rel="stylesheet" href="/assets/index-4decc29d.css">
+    <script type="module" crossorigin src="{{ url_for('static', filename='index-cc179eba.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index-4decc29d.css') }}">
 </head>
 
 <body class="loading">

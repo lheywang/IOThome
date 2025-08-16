@@ -14,8 +14,8 @@ ARG CACHE_DATE=2016-01-02
 ADD . /IOThome/
 
 # Set the workdir to the base of the folder
-WORKDIR /IOThome/
+WORKDIR /IOThome/host/
 
 # Configure entry point !
 ENTRYPOINT ["python3"]
-CMD ["host/main.py"]
+CMD ["main.py"]

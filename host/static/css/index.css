@@ -1,0 +1,36 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+.banner {
+    padding: 1em;
+    background: linear-gradient(90deg, #8360c3, #2ebf91);
+}
+h1 {
+    color: white;
+    text-align: center;
+}
+
+p {
+    font-size: 2em;
+    color: rgb(10, 10, 185);
+}
+
+.footer {
+    padding: 0.5em;
+    background: grey;
+    color: black;
+    padding: 1em;
+}
+
+.containers {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1em;
+}
+
+.img {
+    max-width: 50%;
+    height: auto;
+}

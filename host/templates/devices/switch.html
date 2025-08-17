@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>IOT Home</title>
+    <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='img/icon.png') }}" rel="icon" />
+</head>
+
+<body>
+    <header>
+        <div class="banner">
+            <h1>
+                IOT Home
+            </h1>
+        </div>
+    </header>
+
+    <div class="containers">
+        <div class="audio-switch">
+            <a class="img" src="{{ url_for('static', filename='img/switch.png') }}" alt="Icon of an audio-switch"
+                href="devices/switch.html">
+            </a>
+            <p>
+                Switch audio
+            </p>
+        </div>
+        <div class="audio-player">
+            <a class="img" src="{{ url_for('static', filename='img/player.png') }}" alt="Icon of an audio-switch"
+                href="devices/player.html">
+            </a>
+            <p>
+                Player audio
+            </p>
+        </div>
+        <div class="audio-speaker">
+            <a class="img" src="{{ url_for('static', filename='img/speaker.png') }}" alt="Icon of an audio-switch"
+                href="devices/switch.html">
+            </a>
+            <p>
+                Speakers
+            </p>
+        </div>
+        <div class="sensor-temperature">
+            <a class="img" src="{{ url_for('static', filename='img/temperature.png') }}" alt="Icon of an audio-switch"
+                href="devices/temperature.html">
+            </a>
+            <p>
+                Temperature sensors
+            </p>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="footer">
+            HEYWANG Léonard.
+        </div>
+    </footer>
+</body>
+
+</html>

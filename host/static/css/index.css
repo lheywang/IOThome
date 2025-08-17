@@ -12,25 +12,90 @@ h1 {
     text-align: center;
 }
 
-p {
-    font-size: 2em;
-    color: rgb(10, 10, 185);
-}
-
 .footer {
     padding: 0.5em;
-    background: grey;
-    color: black;
+    background: rgb(0, 0, 0);
+    color: rgb(170, 170, 170);
     padding: 1em;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+    background: rgb(36, 36, 36);
 }
 
 .containers {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    flex-grow: 1;
+    
     padding: 1em;
+    background: rgb(36, 36, 36);
+    color: rgb(228, 218, 218);
+    
+}
+
+.elements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin: 1em;
+    padding: 1em;
+
+    border: solid;
+
+    flex-basis: 167px;
+    flex-grow: 1;
+
+    border-color: rgb(253, 218, 60);
+    border-radius: 0.75em;
+}
+
+.elements:hover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin: 1em;
+    padding: 1em;
+
+    border: solid;
+
+    flex-basis: 167px;
+    flex-grow: 1;
+
+    border-color: rgb(218, 137, 15);
+    border-radius: 0.75em;
+}
+
+.elements a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.elements img {
+    max-width: 50%;
+    height: auto;
 }
 
 .img {
-    max-width: 50%;
+    max-width: 33%;
     height: auto;
 }

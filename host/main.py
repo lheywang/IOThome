@@ -10,6 +10,26 @@ def hello_world():
     return render_template("index.html")
 
 
+@app.route("/devices/switch.html")
+def switch():
+    return render_template("devices/switch.html")
+
+
+@app.route("/devices/player.html")
+def player():
+    return render_template("devices/player.html")
+
+
+@app.route("/devices/speaker.html")
+def speaker():
+    return render_template("devices/speaker.html")
+
+
+@app.route("/devices/temperature.html")
+def temperature():
+    return render_template("devices/temperature.html")
+
+
 @app.route("/debug")
 def debug():
     return os.getcwd()

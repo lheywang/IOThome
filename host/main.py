@@ -8,14 +8,51 @@
 # ==================================================================================================
 ## Imports
 # Default libs
-import time
 import os
 
 # Modules
-from flask import Flask, render_template, Response  # type: ignore
+from flask import Flask, render_template  # type: ignore
+from dotenv import load_dotenv  # type: ignore
 
 # Files
 from devices import switch_bp, player_bp, speaker_bp, temperature_bp
+from libs.mqtt import MQTTClient
+
+# -------------------------------------------------------------------------------------------------
+# LOAD .env config file
+# -------------------------------------------------------------------------------------------------
+# Read file
+load_dotenv()
+
+# Fetch variables
+MQTT_BROKER = str(os.getenv("MQTT_BROKER"))
+MQTT_USER = str(os.getenv("MQTT_USER"))
+MQTT_PASS = str(os.getenv("MQTT_PASS"))
+
+# -------------------------------------------------------------------------------------------------
+# MQTT init
+# -------------------------------------------------------------------------------------------------
+mqtt_client = MQTTClient(
+    broker=MQTT_BROKER,
+    port=1883,
+    username=MQTT_USER,
+    password=MQTT_PASS,
+)
+mqtt_client.start()
+
+
+def test_callback(topic, payload, client, userdata):
+    print(f"{topic} : {payload}")
+    return
+
+
+mqtt_client.add_subscription("presence/#", test_callback)
+mqtt_client.publish_retain("presence/server", "Up !")
+
+
+# -------------------------------------------------------------------------------------------------
+# Flask web server init
+# -------------------------------------------------------------------------------------------------
 
 # Openning app
 app = Flask(__name__)

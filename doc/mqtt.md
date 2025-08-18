@@ -22,10 +22,12 @@ IOTHome : Root topic
 ├── logs : Logs topic, devices are writtings their debugs output here
 │ ├── player
 │ ├── speaker
+│ ├── server
 │ ├── switch
 │ └── temperature
 └── presence : Presence topic. Devices ping here regularly to show they're on the network.
 ├── player
 ├── speaker
+├── server
 ├── switch
 └── temperature

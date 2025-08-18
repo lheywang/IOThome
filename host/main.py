@@ -1,53 +1,39 @@
-from flask import Flask, render_template, Response
+# ==================================================================================================
+# file :        main.py
+#
+# author :      l.heywang
+# date :        18/08/2025
+#
+# brief :       Main file for the IOTHome web server ! Provide root functions as well as include of subfiles
+# ==================================================================================================
+## Imports
+# Default libs
 import time
 import os
 
+# Modules
+from flask import Flask, render_template, Response  # type: ignore
+
+# Files
+from devices import switch_bp, player_bp, speaker_bp, temperature_bp
+
+# Openning app
 app = Flask(__name__)
 
+# Including blueprints
+app.register_blueprint(switch_bp, url_prefix="/devices")
+app.register_blueprint(player_bp, url_prefix="/devices")
+app.register_blueprint(temperature_bp, url_prefix="/devices")
+app.register_blueprint(speaker_bp, url_prefix="/devices")
 
+
+# First functions
 @app.route("/")
 @app.route("/index.html")
 def hello_world():
     return render_template("index.html")
 
 
-@app.route("/devices/switch.html")
-def switch():
-    return render_template("devices/switch.html")
-
-
-@app.route("/devices/player.html")
-def player():
-    return render_template("devices/player.html")
-
-
-@app.route("/devices/speaker.html")
-def speaker():
-    return render_template("devices/speaker.html")
-
-
-@app.route("/devices/temperature.html")
-def temperature():
-    return render_template("devices/temperature.html")
-
-
-@app.route("/debug")
-def debug():
-    return os.getcwd()
-
-
-@app.route("/sse")
-def sse_stream():
-    def generate_events():
-        # This is where you would get real-time data from your application
-        while True:
-            # Example: send the current time every second
-            data = f"data: The current time is {time.strftime('%H:%M:%S')}\n\n"
-            yield data
-            time.sleep(1)
-
-    return Response(generate_events(), mimetype="text/event-stream")
-
-
+# Launching the app
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

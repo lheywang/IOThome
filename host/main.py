@@ -9,6 +9,7 @@
 ## Imports
 # Default libs
 import os
+import time
 
 # Modules
 from flask import Flask, render_template  # type: ignore
@@ -39,15 +40,9 @@ mqtt_client = MQTTClient(
     password=MQTT_PASS,
 )
 mqtt_client.start()
+mqtt_client.publish("presence/server", "Up !")
 
-
-def test_callback(topic, payload, client, userdata):
-    print(f"{topic} : {payload}")
-    return
-
-
-mqtt_client.add_subscription("presence/#", test_callback)
-mqtt_client.publish_retain("presence/server", "Up !")
+# print(mqtt_client.presence_handler.get_active_devices())
 
 
 # -------------------------------------------------------------------------------------------------

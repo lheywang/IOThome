@@ -13,6 +13,9 @@ import fnmatch
 # Modules
 import paho.mqtt.client as paho  # type: ignore
 
+# Locals files
+from .callbacks import logs_handler, presence_handler, command_handler
+
 
 # --------------------------------------------------------------------------------------------------
 # Class
@@ -49,6 +52,15 @@ class MQTTClient:
         # A dictionary to store topic-specific callback functions
         self.callbacks = {}
         self.gcallbacks = {}
+
+        # Initialize the different callbacks classes
+        self.logs_handler = logs_handler()
+        self.presence_handler = presence_handler()
+        self.command_handler = command_handler()
+
+        # Add some pre-defined callbacks to topics
+        self.add_subscription("presence/#", self.presence_handler.parse_payload)
+        self.add_subscription("logs/#", self.logs_handler.parse_payload)
 
         return
 

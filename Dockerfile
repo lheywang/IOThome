@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 # Install dependencies
 RUN apt-get update -y
-RUN apt-get install -y python3-pip python3 git python3-flask
+RUN apt-get install -y python3-pip python3 git python3-flask python3-paho-mqtt
 
 # Invalidate cache :
 ARG CACHE_DATE=2016-01-02

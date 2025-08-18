@@ -8,46 +8,43 @@
 # ==================================================================================================
 # STD imports
 import time
+import threading
+import os
+from flask import current_app  # type: ignore
 
 
 class presence_handler:
     def __init__(self):
-        self.presences = {}
+        self.devices = dict()
+
+        # Ensure all devices are presents
+        names = ["temperature", "player", "speaker", "switch"]
+        for name in names:
+            self.devices[name] = (-1, False)
+        print(self.devices)
+
         return
 
     def parse_payload(self, topic, payload, client, userdata):
 
         # First, fetch the device name (with topic)
-        dev = str(topic).replace("presence/", "")
+        device = str(topic).replace("presence/", "")
+        time.time()
 
-        # Add / Update the timestamp of the device.
-        self.presences[dev] = time.time()
-
-        print(self.presences)
-
-        return
-
-    def get_device_deltas(self) -> dict:
-        # Function init
-        act = time.time()
-        retdict = {}
-
-        # Get the deltas betweens each devices
-        for dev in self.presences:
-            retdict[dev] = int(act - self.presences[dev])
-
-        return retdict
-
-    def get_active_devices(self) -> dict:
-        # Get the deltas between the devices
-        device_delta = self.get_device_deltas()
-
-        print(device_delta)
+        # Update the internal variable
+        self.devices[device] = tuple((time.time(), -1))
 
         # Compare them to a threshold
         THRESHOLD = 10
+        current_app.config["status"] = dict()
 
-        for dev in device_delta:
-            device_delta[dev] = (device_delta[dev], (device_delta[dev] < THRESHOLD))
+        for dev in self.devices:
+            if self.devices[dev][0] > 0:
+                tmp = time.time() - self.devices[dev][0]
+                current_app.config["status"][dev] = (tmp, (tmp < THRESHOLD))
+            else:
+                current_app.config["status"][dev] = (-1, False)
 
-        return device_delta
+        print(f" GETTER 2: {current_app.config["status"]}")
+
+        return

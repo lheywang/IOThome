@@ -10,6 +10,7 @@
 # Default libs
 import os
 import time
+from multiprocessing import Manager
 
 # Modules
 from flask import Flask, render_template  # type: ignore
@@ -32,11 +33,18 @@ MQTT_USER = str(os.getenv("MQTT_USER"))
 MQTT_PASS = str(os.getenv("MQTT_PASS"))
 
 # -------------------------------------------------------------------------------------------------
+# Allocating memory space
+# -------------------------------------------------------------------------------------------------
+# Shared memory area
+# manager = Manager()
+# device_status = manager.dict()
+
+# -------------------------------------------------------------------------------------------------
 # Flask web server init
 # -------------------------------------------------------------------------------------------------
 
 # Openning app
-app = Flask(__name__)
+app = Flask("IOTHome")
 
 # Including blueprints
 app.register_blueprint(switch_bp, url_prefix="/devices")
@@ -45,16 +53,19 @@ app.register_blueprint(temperature_bp, url_prefix="/devices")
 app.register_blueprint(speaker_bp, url_prefix="/devices")
 app.register_blueprint(api_status_bp, url_prefix="/api")
 
+# Setting up shared memory locations
+app.config["status"] = dict()
+
 # -------------------------------------------------------------------------------------------------
 # MQTT init
 # -------------------------------------------------------------------------------------------------
-app.config["mqtt_client"] = MQTTClient(
+mqtt_client = MQTTClient(
     broker=MQTT_BROKER,
     port=1883,
     username=MQTT_USER,
     password=MQTT_PASS,
 )
-app.config["mqtt_client"].start()
+mqtt_client.start()
 
 
 # First functions
@@ -67,9 +78,12 @@ def index():
 # Make sure to teardown mqtt client when flask shutdown.
 @app.teardown_appcontext
 def teardown_mqtt_client(exception):
-    app.config["mqtt_client"].stop()
+    mqtt_client.stop()
 
 
 # Launching the app
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(
+        debug=True,
+        host="0.0.0.0",
+    )

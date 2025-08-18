@@ -15,15 +15,6 @@ api_status_bp = Blueprint("api", __name__, template_folder="templates")
 
 
 @api_status_bp.route("/status")
-def apo_status():
+def api_status():
     # Get the differents devices status
-    mqtt_client = current_app.config["mqtt_client"]
-    devices = mqtt_client.presence_handler.get_active_devices()
-
-    # Ensure all devices are presents
-    names = ["temperature", "player", "speaker", "switch"]
-    for name in names:
-        if not name in devices:
-            devices[name] = (-1, False)
-
-    return jsonify(devices)
+    return jsonify(current_app.config["status"])

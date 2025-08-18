@@ -19,51 +19,63 @@
         </header>
 
         <div class="containers">
-            <div class="elements">
+            <div class="elements" data-device-name="switch">
                 <a href="devices/switch.html">
-                    <img 
-                    class="img" 
+                    <img class="img" 
                     src="{{ url_for('static', filename='img/switch.png') }}" 
                     alt="Icon of an audio-switch" />
                     <p>
                         Switch audio
                     </p>
+                    <div class="status-indicator-container">
+                        <span class="status-light"></span>
+                        <span class="status-text"></span>
+                    </div>
                 </a>
             </div>
 
-            <div class="elements">
+            <div class="elements" data-device-name="player">
                 <a href="devices/player.html">
-                    <img 
-                    class="img" 
+                    <img class="img" 
                     src="{{ url_for('static', filename='img/player.png') }}" 
                     alt="Icon of an audio-switch"/>
                     <p>
                         Player audio
                     </p>
+                    <div class="status-indicator-container">
+                        <span class="status-light"></span>
+                        <span class="status-text"></span>
+                    </div>
                 </a>
             </div>
 
-            <div class="elements">
-                <a href="devices/switch.html">
-                    <img 
-                    class="img"
+            <div class="elements" data-device-name="speaker">
+                <a href="devices/speaker.html">
+                    <img class="img"
                     src="{{ url_for('static', filename='img/speaker.png') }}" 
                     alt="Icon of an audio-switch" />
                     <p>
                         Speakers
                     </p>
+                    <div class="status-indicator-container">
+                        <span class="status-light"></span>
+                        <span class="status-text"></span>
+                    </div>
                 </a>
             </div>
 
-            <div class="elements">
+            <div class="elements" data-device-name="temperature">
                 <a href="devices/temperature.html">
-                    <img 
-                    class="img" 
+                    <img class="img" 
                     src="{{ url_for('static', filename='img/temperature.png') }}" 
                     alt="Icon of an audio-switch"/>
                     <p>
                         Temperature sensors
                     </p>
+                    <div class="status-indicator-container">
+                        <span class="status-light"></span>
+                        <span class="status-text"></span>
+                    </div>
                 </a>
             </div>
 
@@ -74,5 +86,9 @@
                 HEYWANG Léonard.
             </div>
         </footer>
+
+        <script src="{{ url_for('static', filename='js/status.js') }}" >
+
+        </script>
     </body>
 </html>

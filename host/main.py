@@ -17,6 +17,7 @@ from dotenv import load_dotenv  # type: ignore
 
 # Files
 from devices import switch_bp, player_bp, speaker_bp, temperature_bp
+from api import api_status_bp
 from libs.mqtt import MQTTClient
 
 # -------------------------------------------------------------------------------------------------
@@ -31,21 +32,6 @@ MQTT_USER = str(os.getenv("MQTT_USER"))
 MQTT_PASS = str(os.getenv("MQTT_PASS"))
 
 # -------------------------------------------------------------------------------------------------
-# MQTT init
-# -------------------------------------------------------------------------------------------------
-mqtt_client = MQTTClient(
-    broker=MQTT_BROKER,
-    port=1883,
-    username=MQTT_USER,
-    password=MQTT_PASS,
-)
-mqtt_client.start()
-mqtt_client.publish("presence/server", "Up !")
-
-# print(mqtt_client.presence_handler.get_active_devices())
-
-
-# -------------------------------------------------------------------------------------------------
 # Flask web server init
 # -------------------------------------------------------------------------------------------------
 
@@ -57,13 +43,31 @@ app.register_blueprint(switch_bp, url_prefix="/devices")
 app.register_blueprint(player_bp, url_prefix="/devices")
 app.register_blueprint(temperature_bp, url_prefix="/devices")
 app.register_blueprint(speaker_bp, url_prefix="/devices")
+app.register_blueprint(api_status_bp, url_prefix="/api")
+
+# -------------------------------------------------------------------------------------------------
+# MQTT init
+# -------------------------------------------------------------------------------------------------
+app.config["mqtt_client"] = MQTTClient(
+    broker=MQTT_BROKER,
+    port=1883,
+    username=MQTT_USER,
+    password=MQTT_PASS,
+)
+app.config["mqtt_client"].start()
 
 
 # First functions
 @app.route("/")
 @app.route("/index.html")
-def hello_world():
+def index():
     return render_template("index.html")
+
+
+# Make sure to teardown mqtt client when flask shutdown.
+@app.teardown_appcontext
+def teardown_mqtt_client(exception):
+    app.config["mqtt_client"].stop()
 
 
 # Launching the app

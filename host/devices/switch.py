@@ -9,7 +9,7 @@
 
 
 # devices/switch.py
-from flask import Blueprint, render_template, request, jsonify  # type: ignore
+from flask import Blueprint, render_template, request  # type: ignore
 
 # Create the Blueprint
 switch_bp = Blueprint("switch", __name__, template_folder="templates")

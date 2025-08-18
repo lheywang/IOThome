@@ -8,7 +8,7 @@
 # ==================================================================================================
 
 # devices/switch.py
-from flask import Blueprint, render_template, request, jsonify  # type: ignore
+from flask import Blueprint, render_template, request  # type: ignore
 
 # Create the Blueprint
 player_bp = Blueprint("player", __name__, template_folder="templates")

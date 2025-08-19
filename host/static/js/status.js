@@ -2,6 +2,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // The main container for all device elements
   const elementsContainer = document.querySelector(".containers");
 
+  const formatDuration = (seconds) => {
+    if (seconds < 60) return `${Math.floor(seconds)} seconds ago`;
+    if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+    if (seconds < 2592000) return `${Math.floor(seconds / 86400)} days ago`;
+    return `a very long time ago`;
+  };
+
   async function updateStatus() {
     try {
       const response = await fetch("/api/status");
@@ -38,9 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
           if (isOnline) {
             light.classList.add("online");
             lastSeenText = "Online";
-          } else if (lastSeenDelta > 0) {
+          } else if (lastSeenDelta < 60 * 60 * 365.25) {
+            // Device was seen in the past year
             light.classList.add("offline");
-            lastSeenText = `Offline (Last seen ${lastSeenDelta}s ago)`;
+            lastSeenText = `Offline (Last seen ${formatDuration(
+              lastSeenDelta
+            )})`;
           } else {
             // lastSeenDelta is -1
             light.classList.add("unknown");

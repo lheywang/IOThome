@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             // lastSeenDelta is -1
             light.classList.add("unknown");
-            lastSeenText = "Unknown (Never seen)";
+            lastSeenText = "Unknown";
           }
 
           // Update the text and add the tooltip for hover

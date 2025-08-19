@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
           let lastSeenText = "";
 
+          console.log(lastSeenDelta, isOnline);
+
           // Apply the new logic to determine the device state
           if (isOnline) {
             light.classList.add("online");

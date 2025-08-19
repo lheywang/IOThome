@@ -12,39 +12,19 @@ import threading
 import os
 from flask import current_app  # type: ignore
 
+# Files
+from libs.database import update_device_status
+
 
 class presence_handler:
     def __init__(self):
-        self.devices = dict()
-
-        # Ensure all devices are presents
-        names = ["temperature", "player", "speaker", "switch"]
-        for name in names:
-            self.devices[name] = (-1, False)
-        print(self.devices)
-
         return
 
     def parse_payload(self, topic, payload, client, userdata):
 
         # First, fetch the device name (with topic)
         device = str(topic).replace("presence/", "")
-        time.time()
 
-        # Update the internal variable
-        self.devices[device] = tuple((time.time(), -1))
-
-        # Compare them to a threshold
-        THRESHOLD = 10
-        current_app.config["status"] = dict()
-
-        for dev in self.devices:
-            if self.devices[dev][0] > 0:
-                tmp = time.time() - self.devices[dev][0]
-                current_app.config["status"][dev] = (tmp, (tmp < THRESHOLD))
-            else:
-                current_app.config["status"][dev] = (-1, False)
-
-        print(f" GETTER 2: {current_app.config["status"]}")
+        update_device_status(device, True)
 
         return

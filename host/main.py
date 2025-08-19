@@ -13,13 +13,14 @@ import time
 from multiprocessing import Manager
 
 # Modules
-from flask import Flask, render_template  # type: ignore
+from flask import Flask, render_template, send_from_directory  # type: ignore
 from dotenv import load_dotenv  # type: ignore
 
 # Files
 from devices import switch_bp, player_bp, speaker_bp, temperature_bp
 from api import api_status_bp
 from libs.mqtt import MQTTClient
+from libs.database import setup_db
 
 # -------------------------------------------------------------------------------------------------
 # LOAD .env config file
@@ -33,11 +34,10 @@ MQTT_USER = str(os.getenv("MQTT_USER"))
 MQTT_PASS = str(os.getenv("MQTT_PASS"))
 
 # -------------------------------------------------------------------------------------------------
-# Allocating memory space
+# Database access
 # -------------------------------------------------------------------------------------------------
-# Shared memory area
-# manager = Manager()
-# device_status = manager.dict()
+# Set-up
+setup_db()
 
 # -------------------------------------------------------------------------------------------------
 # Flask web server init
@@ -68,11 +68,18 @@ mqtt_client = MQTTClient(
 mqtt_client.start()
 
 
-# First functions
+# Routes to the index.html land page
 @app.route("/")
 @app.route("/index.html")
 def index():
     return render_template("index.html")
+
+
+# Redirect the /favicon.icon to the custom defined icon we want
+@app.route("/favicon.ico")
+def favicon():
+    # Return the favicon.ico file from the static directory
+    return send_from_directory(os.path.join(app.root_path, "static/img"), "icon.png")
 
 
 # Make sure to teardown mqtt client when flask shutdown.

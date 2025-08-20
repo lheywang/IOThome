@@ -210,3 +210,7 @@ __marimo__/
 bin/*
 
 tmp/
+
+# Arduinos IDE projects
+*private.ino
+*private.h

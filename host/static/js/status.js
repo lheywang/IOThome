@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const formatDuration = (seconds) => {
     if (seconds < 60) return `${Math.floor(seconds)} seconds ago`;
     if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)} hour ago`;
+    if (seconds < 172800) return `${Math.floor(seconds / 3600)} hours ago`;
     if (seconds < 2592000) return `${Math.floor(seconds / 86400)} days ago`;
     return `a very long time ago`;
   };

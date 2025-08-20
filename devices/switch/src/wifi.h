@@ -2,5 +2,5 @@ namespace wifi
 {
     int Connect();
     int Disconnect();
-    int CheckStatus();
+    int CheckStatus(bool AutoCorrect); // Set to True to enable auto patch of the status
 }

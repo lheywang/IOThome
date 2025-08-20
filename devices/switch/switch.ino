@@ -1,6 +1,10 @@
+// Custom made C++ code
 #include "src/wifi.h"
 #include "src/mqtt.h"
 #include "src/gpio.h"
+
+// Arduino libs
+#include <PubSubClient.h>
 
 /*
  * IMPORTANT NOTICE
@@ -14,6 +18,9 @@
  *   They remain included by other file, thus, the compiler will simply trigger an error.
  *
  * */
+
+// Fetch external variables
+extern PubSubClient mqttClient;
 
 void setup()
 {
@@ -32,7 +39,12 @@ void setup()
 
 void loop()
 {
-  Serial.print(wifi::CheckStatus());
+  Serial.print(wifi::CheckStatus(true));
   Serial.print(" - Hello World !\n");
   sleep(1);
+
+  if (!mqttClient.connected()) {
+    mqtt::Connect(); // Call your connect function
+  }
+  mqttClient.loop();
 }

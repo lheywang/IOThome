@@ -40,7 +40,7 @@ int wifi::Disconnect()
     WiFi.disconnect();
 
     int count = 0;
-    while (wifi::CheckStatus() == 0)
+    while (wifi::CheckStatus(false) == 0)
     {
         delay(100);
         count++;
@@ -53,7 +53,7 @@ int wifi::Disconnect()
     return 0;
 }
 
-int wifi::CheckStatus()
+int wifi::CheckStatus(bool AutoCorrect)
 {
     switch (WiFi.status())
     {
@@ -82,16 +82,24 @@ int wifi::CheckStatus()
 
     case WL_CONNECTION_LOST:
         Serial.print("Lost wifi connection... Retry to connect !");
-        // Proper shtudown
-        mqtt::Disconnect();
-        wifi::Disconnect();
 
-        wifi::Connect();
-        mqtt::Connect();
+        if (AutoCorrect)
+        {
+            // Proper shtudown
+            mqtt::Disconnect();
+            wifi::Disconnect();
+
+            wifi::Connect();
+            mqtt::Connect();
+        }
         return -6;
         break;
 
     case WL_DISCONNECTED:
+        if (AutoCorrect)
+        {
+            wifi::Connect();
+        }
         return -7;
         break;
 

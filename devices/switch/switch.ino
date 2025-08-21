@@ -1,50 +1,38 @@
 // Custom made C++ code
 #include "src/wifi.h"
-#include "src/mqtt.h"
 #include "src/gpio.h"
+#include "src/http.h"
 
 // Arduino libs
-#include <PubSubClient.h>
+#include <HTTPClient.h>
+#include <WiFi.h>
 
 /*
  * IMPORTANT NOTICE
- * - Before compiling the tool, copy the two files that end with _ex.h to their name without the _ex, and fill the fields.
+ * - Before compiling the tool, copy the files that end with _ex.h to their name without the _ex, and fill the fields.
  *   On a UNIX system, that may look like :
- *   - cp src/mqtt_private_ex.h src/mqtt_private.h
  *   - cp src/wifi_private_ex.h src/wifi_private.h
  *
- * - And then, fill the different fields (SSID and password for wifi, broker, user and password for MQTT).
+ * - And then, fill the different fields (SSID and password for wifi).
  * - Failing to do so will result in a compilation error. Theses files are excluded from git (for obvious reasons), and thus DO NOT EXIST after clone.
  *   They remain included by other file, thus, the compiler will simply trigger an error.
  *
  * */
 
-// Fetch external variables
-extern PubSubClient mqttClient;
-
 void setup()
 {
-  // Initialize the serial communication
-  Serial.begin(115200);
+    // Initialize the serial communication
+    Serial.begin(115200);
 
-  // Initialize the GPIOs
-  gpio::Init();
+    // Initialize the GPIOs
+    gpio::Init();
 
-  // Connect to the wifi network
-  wifi::Connect();
-
-  // Connect to the mqtt broker
-  mqtt::Connect();
+    // Connect to the wifi network
+    wifi::Connect();
 }
 
 void loop()
 {
-  Serial.print(wifi::CheckStatus(true));
-  Serial.print(" - Hello World !\n");
-  sleep(1);
-
-  if (!mqttClient.connected()) {
-    mqtt::Connect(); // Call your connect function
-  }
-  mqttClient.loop();
+    http::AssertPresence();
+    delay(1000 * 10);
 }

@@ -53,7 +53,8 @@ def setup_db():
                 """CREATE TABLE IF NOT EXISTS public.device_status (
                     name                VARCHAR(255)        PRIMARY KEY,
                     last_seen_timestamp DOUBLE PRECISION    NOT NULL,
-                    is_online           BOOLEAN             NOT NULL
+                    is_online           BOOLEAN             NOT NULL,
+                    ip                  VARCHAR(255)        NOT NULL
                 );"""
             )
             conn.commit()

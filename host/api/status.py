@@ -13,12 +13,17 @@ import time
 from flask import Blueprint, request, current_app, jsonify  # type: ignore
 
 # Files
-from libs.database import get_all_device_status, update_device_bool
+from libs.database import (
+    get_all_device_status,
+    update_device_bool,
+    update_device_status,
+)
 
 # Create the Blueprint
 api_status_bp = Blueprint("api", __name__, template_folder="templates")
 
 
+# API to fetc the status of the devices
 @api_status_bp.route("/status")
 def api_status():
     # First, fetch the known devices on the database and actual time
@@ -39,3 +44,10 @@ def api_status():
 
     # Get the differents devices status
     return out
+
+
+# API to update a device with any possible device
+@api_status_bp.route("/presence/<string:device>")
+def api_presence(device: str):
+    update_device_status(device, True)
+    return "OK"

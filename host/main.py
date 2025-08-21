@@ -19,7 +19,6 @@ from dotenv import load_dotenv  # type: ignore
 # Files
 from devices import switch_bp, player_bp, speaker_bp, temperature_bp
 from api import api_status_bp
-from libs.mqtt import MQTTClient
 from libs.database import setup_db
 
 # -------------------------------------------------------------------------------------------------
@@ -56,17 +55,6 @@ app.register_blueprint(api_status_bp, url_prefix="/api")
 # Setting up shared memory locations
 app.config["status"] = dict()
 
-# -------------------------------------------------------------------------------------------------
-# MQTT init
-# -------------------------------------------------------------------------------------------------
-mqtt_client = MQTTClient(
-    broker=MQTT_BROKER,
-    port=1883,
-    username=MQTT_USER,
-    password=MQTT_PASS,
-)
-mqtt_client.start()
-
 
 # Routes to the index.html land page
 @app.route("/")
@@ -80,12 +68,6 @@ def index():
 def favicon():
     # Return the favicon.ico file from the static directory
     return send_from_directory(os.path.join(app.root_path, "static/img"), "icon.png")
-
-
-# Make sure to teardown mqtt client when flask shutdown.
-@app.teardown_appcontext
-def teardown_mqtt_client(exception):
-    mqtt_client.stop()
 
 
 # Launching the app

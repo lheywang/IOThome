@@ -7,7 +7,6 @@
 
 // Private libs
 #include "wifi_private.h"
-#include "mqtt.h"
 
 // Functions
 int wifi::Connect()
@@ -86,11 +85,8 @@ int wifi::CheckStatus(bool AutoCorrect)
         if (AutoCorrect)
         {
             // Proper shtudown
-            mqtt::Disconnect();
             wifi::Disconnect();
-
             wifi::Connect();
-            mqtt::Connect();
         }
         return -6;
         break;

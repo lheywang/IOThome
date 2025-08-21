@@ -2,10 +2,12 @@
 #include "src/wifi.h"
 #include "src/gpio.h"
 #include "src/http.h"
+#include "src/udp.h"
 
 // Arduino libs
 #include <HTTPClient.h>
 #include <WiFi.h>
+#include "AsyncUDP.h"
 
 /*
  * IMPORTANT NOTICE
@@ -19,6 +21,8 @@
  *
  * */
 
+extern AsyncUDP udp;
+
 void setup()
 {
     // Initialize the serial communication
@@ -29,6 +33,14 @@ void setup()
 
     // Connect to the wifi network
     wifi::Connect();
+
+    // Open the UDP port for listenning
+    if (udp.listen(1234))
+    {
+        Serial.print("WiFi connected. UDP Listening on IP: ");
+        Serial.println(WiFi.localIP());
+        udp.onPacket([](AsyncUDPPacket packet) { udplib::packet_handler(packet); });
+    }
 }
 
 void loop()
@@ -36,3 +48,5 @@ void loop()
     http::AssertPresence();
     delay(1000 * 10);
 }
+
+

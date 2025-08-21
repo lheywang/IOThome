@@ -1,13 +1,6 @@
 // Config
-constexpr int SPEAKER1 = 12;
-constexpr int SPEAKER2 = 14;
-constexpr int SPEAKER3 = 27;
-constexpr int SPEAKER4 = 26;
-
-constexpr int INPUT1 = 25;
-constexpr int INPUT2 = 33;
-constexpr int INPUT3 = 32;
-constexpr int INPUT4 = 18;
+constexpr int SPEAKERS[4] = {12, 14, 27, 26};
+constexpr int INPUTS[4] = {25, 33, 32, 18};
 
 // Functions
 namespace gpio

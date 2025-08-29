@@ -71,7 +71,7 @@ int wifi::CheckStatus(bool AutoCorrect)
         break;
 
     case WL_NO_SSID_AVAIL:
-        Serial.print("There's no Wi-Fi network available. Ensure the device can receive Wi-Fi signal !");
+        Serial.print("There's no Wi-Fi network available. Ensure the device can receive Wi-Fi signal !\n");
         return -4;
         break;
 
@@ -80,7 +80,7 @@ int wifi::CheckStatus(bool AutoCorrect)
         break;
 
     case WL_CONNECTION_LOST:
-        Serial.print("Lost wifi connection... Retry to connect !");
+        Serial.print("Lost wifi connection... Retry to connect !\n");
 
         if (AutoCorrect)
         {

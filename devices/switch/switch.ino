@@ -2,12 +2,13 @@
 #include "src/wifi.h"
 #include "src/gpio.h"
 #include "src/http.h"
-#include "src/udp.h"
+// #include "src/websocket.h"
 
 // Arduino libs
 #include <HTTPClient.h>
 #include <WiFi.h>
-#include "AsyncUDP.h"
+
+WiFiServer server(1234);
 
 /*
  * IMPORTANT NOTICE
@@ -21,7 +22,12 @@
  *
  * */
 
-extern AsyncUDP udp;
+/*
+ * DEPENDENCIES
+ * - HTTPClient
+ * - WebSockets2_Generic
+ *
+ */
 
 void setup()
 {
@@ -34,19 +40,43 @@ void setup()
     // Connect to the wifi network
     wifi::Connect();
 
-    // Open the UDP port for listenning
-    if (udp.listen(1234))
-    {
-        Serial.print("WiFi connected. UDP Listening on IP: ");
-        Serial.println(WiFi.localIP());
-        udp.onPacket([](AsyncUDPPacket packet) { udplib::packet_handler(packet); });
-    }
+    server.begin();
+    Serial.println("Server started!");
 }
 
 void loop()
 {
-    http::AssertPresence();
-    delay(1000 * 10);
+    WiFiClient client = server.available();
+
+  if (client) {
+    // A new client has connected.
+    Serial.println("New client connected!");
+    
+    // Process a single command from the client
+    String command = client.readStringUntil('\n');
+    command.trim();
+    
+    Serial.print("Received command: ");
+    Serial.println(command);
+
+    if (command == "status") {
+      client.println("Status: OK");
+    } else if (command == "toggle_switch") {
+      client.println("Toggling switch...");
+    } else {
+      client.println("Unknown command");
+    }
+
+    // Immediately stop the client after processing the command.
+    client.stop();
+    Serial.println("Client disconnected.");
+  }
+
+    // Set presence every 10 seconds
+    static unsigned long lastSend = 0;
+    if (millis() - lastSend > 10000)
+    {
+        http::AssertPresence();
+        lastSend = millis();
+    }
 }
-
-

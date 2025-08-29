@@ -8,12 +8,12 @@
 #include <WiFi.h>
 
 static WiFiClient client;
-static HTTPClient _http;
 
 static String url = "http://172.16.17.37:5000/api/presence/switch";
 
 int http::AssertPresence()
 {
+    HTTPClient _http;
     if (wifi::CheckStatus(false) != 0)
     {
         return -1;
